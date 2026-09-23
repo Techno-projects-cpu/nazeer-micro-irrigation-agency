@@ -22,6 +22,7 @@ export function Hero() {
           />
         </div>
         <div className="scrim-bottom absolute inset-0" aria-hidden="true" />
+        <div className="scrim-top absolute inset-x-0 top-0 h-40" aria-hidden="true" />
 
         <div className="shell relative">
           <p className="label text-canvas/85">

@@ -58,6 +58,7 @@
     overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
   }
 
   h1,
@@ -393,6 +394,14 @@
   }
   .scrim-plate {
     background-image: linear-gradient(to top, rgb(15 21 17 / 0.62), rgb(15 21 17 / 0.05));
+  }
+  .scrim-top {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(15 21 17 / 0.6),
+      rgb(15 21 17 / 0.28) 45%,
+      rgb(15 21 17 / 0) 100%
+    );
   }
 
   /* --- The printed ledger ------------------------------------------------ */

@@ -79,7 +79,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
         overCover ? "bg-transparent text-canvas" : "hairline-b bg-canvas text-ink"
       }`}
     >
@@ -134,9 +134,9 @@ export function Header() {
       {open ? (
         <div
           id="mobile-menu"
-          className="hairline-t fixed inset-x-0 top-16 bottom-0 bg-canvas md:top-[4.5rem] lg:hidden"
+          className="hairline-t fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] bg-canvas pb-[calc(6rem+env(safe-area-inset-bottom))] md:top-[calc(4.5rem+env(safe-area-inset-top))] lg:hidden"
         >
-          <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pt-2 pb-10">
+          <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pt-2 pb-6">
             <ul>
               {NAV_LINKS.map((link) => (
                 <li key={link.href} className="hairline-b">

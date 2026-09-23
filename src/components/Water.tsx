@@ -38,7 +38,7 @@ export function Water() {
               <span className="label">
                 Indicative illustration · Plate {PLATES.aerial.id} against plate {PLATES.hero.id}
               </span>
-              <span className="label">Drag, or use the arrow keys</span>
+              <span className="label">Drag the seam · arrow keys on desktop</span>
             </figcaption>
           </figure>
         </Reveal>

@@ -18,7 +18,7 @@ export function Epigraph() {
       </h2>
       <div className="shell">
         <div className="g12 items-center">
-          <Reveal className="md:col-span-3">
+          <Reveal className="order-2 col-span-2 md:order-none md:col-span-3">
             <Plate
               plate={PLATES.drip}
               aspect="aspect-[3/4]"
@@ -29,7 +29,7 @@ export function Epigraph() {
             />
           </Reveal>
 
-          <Reveal delay={80} className="md:col-span-6">
+          <Reveal delay={80} className="order-1 col-span-4 md:order-none md:col-span-6">
             <figure className="px-0 py-4 text-center md:px-8">
               <blockquote className="epigraph text-ink">
                 {words.map((word, index) => (
@@ -50,7 +50,7 @@ export function Epigraph() {
             </figure>
           </Reveal>
 
-          <Reveal delay={160} className="md:col-span-3">
+          <Reveal delay={160} className="order-3 col-span-2 md:order-none md:col-span-3">
             <Plate
               plate={PLATES.sprinkler}
               aspect="aspect-[3/4]"
