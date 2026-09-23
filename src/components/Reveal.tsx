@@ -1,11 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { EASE, FADE_UP_DURATION } from "@/lib/motion";
 
 const TAGS = {
   div: motion.div,
   section: motion.section,
+  article: motion.article,
   li: motion.li,
   span: motion.span,
   figure: motion.figure,
@@ -13,22 +15,29 @@ const TAGS = {
 
 interface RevealProps {
   children: ReactNode;
+  /** Stagger in milliseconds. Kept small — nothing should feel choreographed. */
   delay?: number;
   className?: string;
   as?: keyof typeof TAGS;
+  /** Travel distance in px. 12–18px is the whole vocabulary. */
   y?: number;
 }
 
-/** Scroll-triggered spring reveal, powered by framer-motion (motiondivision/motion, MIT). */
-export function Reveal({ children, delay = 0, className = "", as = "div", y = 26 }: RevealProps) {
+/**
+ * A gentle fade-up on first view. Honours `prefers-reduced-motion`
+ * by rendering the final state with no transition at all.
+ */
+export function Reveal({ children, delay = 0, className, as = "div", y = 14 }: RevealProps) {
+  const reduce = useReducedMotion();
   const Tag = TAGS[as];
+
   return (
     <Tag
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8% 0px -8% 0px" }}
-      transition={{ duration: 0.7, delay: delay / 1000, ease: [0.2, 0.6, 0.2, 1] }}
+      initial={reduce ? false : { opacity: 0, y }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      transition={{ duration: FADE_UP_DURATION, delay: delay / 1000, ease: EASE }}
     >
       {children}
     </Tag>

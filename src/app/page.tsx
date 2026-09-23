@@ -1,16 +1,14 @@
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
 import { Story } from "@/components/Story";
-import { Quality } from "@/components/Quality";
+import { Standards } from "@/components/Standards";
 import { Products } from "@/components/Products";
-import { Gallery } from "@/components/Gallery";
+import { Field } from "@/components/Field";
 import { Process } from "@/components/Process";
-import { Calculator } from "@/components/Calculator";
+import { Savings } from "@/components/Savings";
 import { Automobile } from "@/components/Automobile";
-import { WhyUs } from "@/components/WhyUs";
+import { Reasons } from "@/components/Reasons";
 import { Faq } from "@/components/Faq";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
@@ -20,25 +18,21 @@ export default function Home() {
   return (
     <>
       <SmoothScroll />
-      <ScrollProgress />
       <Header />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero />
-        <Marquee />
         <Story />
-        <Quality />
+        <Standards />
         <Products />
-        <Gallery />
+        <Field />
         <Process />
-        <Calculator />
+        <Savings />
         <Automobile />
-        <WhyUs />
+        <Reasons />
         <Faq />
         <Contact />
       </main>
       <Footer />
-      {/* Spacer so the mobile action bar never covers footer content */}
-      <div className="h-16 md:hidden" aria-hidden="true" />
       <MobileActionBar />
     </>
   );

@@ -2,48 +2,29 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
 interface SectionHeadingProps {
-  kicker: string;
+  /** Section number, printed like a page number: "01", "02", … */
+  index: string;
+  label: string;
   title: ReactNode;
   lead?: ReactNode;
-  tone?: "dark" | "light";
-  align?: "left" | "center";
+  className?: string;
 }
 
-export function SectionHeading({
-  kicker,
-  title,
-  lead,
-  tone = "dark",
-  align = "left",
-}: SectionHeadingProps) {
-  const dark = tone === "dark";
+/**
+ * Every section opens the same way: a hairline rule, a tiny mono label with
+ * the section number on the right, then the editorial headline.
+ */
+export function SectionHeading({ index, label, title, lead, className = "" }: SectionHeadingProps) {
   return (
-    <Reveal
-      className={`max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
-    >
-      <p
-        className={`font-mono text-[11px] font-medium tracking-[0.28em] uppercase sm:text-xs ${
-          dark ? "text-leaf-400" : "text-leaf-600"
-        }`}
-      >
-        {kicker}
-      </p>
-      <h2
-        className={`font-display mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08] ${
-          dark ? "text-paper-50" : "text-pine-900"
-        }`}
-      >
-        {title}
-      </h2>
-      {lead ? (
-        <p
-          className={`mt-5 text-base leading-relaxed text-balance sm:text-lg ${
-            dark ? "text-paper-300" : "text-pine-700"
-          }`}
-        >
-          {lead}
-        </p>
-      ) : null}
+    <Reveal className={className}>
+      <div className="hairline-t pt-5">
+        <div className="flex items-baseline justify-between gap-4">
+          <p className="label label-ink">{label}</p>
+          <p className="label label-moss">{index}</p>
+        </div>
+        <h2 className="display-2 mt-6 max-w-[44rem]">{title}</h2>
+        {lead ? <p className="lead mt-5 max-w-[34rem]">{lead}</p> : null}
+      </div>
     </Reveal>
   );
 }
