@@ -378,6 +378,12 @@
     overflow: hidden;
     background-color: var(--color-panel);
   }
+  @supports not (aspect-ratio: 1) {
+    /* Ancient engines: keep plates tall enough that photographs show. */
+    .plate {
+      min-height: 240px;
+    }
+  }
   .plate img {
     /* Restrained, consistent grade so all eight plates read as one shoot. */
     filter: saturate(0.88) contrast(1.05) brightness(1.01) sepia(0.07);

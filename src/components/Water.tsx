@@ -49,10 +49,7 @@ export function Water() {
               <div key={row.label}>
                 <div className="flex items-baseline justify-between gap-6">
                   <p className="text-[0.9375rem] font-medium text-ink">{row.label}</p>
-                  <p className="numeral text-[1.75rem] text-ink">
-                    {row.value}
-                    <span className="label ml-3">index</span>
-                  </p>
+                  <p className="numeral text-[1.75rem] text-ink">{row.value}</p>
                 </div>
                 <div className="mt-4 h-[2px] w-full bg-hairline">
                   <div
