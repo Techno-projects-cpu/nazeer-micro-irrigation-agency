@@ -30,7 +30,9 @@ export type IconName =
   | "greenhouse"
   | "calculator"
   | "sprinkler"
-  | "waves";
+  | "waves"
+  | "message"
+  | "navigate";
 
 const PATHS: Record<IconName, ReactNode> = {
   droplet: (
@@ -221,6 +223,15 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
       <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
       <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+    </>
+  ),
+  message: (
+    <path d="M21 11.7c0 4.1-3.6 7.4-8 7.4-1 0-2-.2-2.9-.5L5 20l1.4-4.1A7 7 0 0 1 5 11.7c0-4 3.6-7.3 8-7.3s8 3.3 8 7.3Z" />
+  ),
+  navigate: (
+    <>
+      <path d="M12 3v18" />
+      <path d="M12 3l7 16-7-4-7 4 7-16Z" />
     </>
   ),
 };

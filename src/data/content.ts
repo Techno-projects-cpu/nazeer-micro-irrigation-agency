@@ -11,6 +11,11 @@ export const SITE = {
   hours: "Mon – Sat · 9:00 AM – 7:00 PM",
   mapsUrl: "https://maps.app.goo.gl/g4gq9qmN7yvSftEs9",
   since: 2004,
+  /**
+   * Canonical origin for metadata, robots.txt and sitemap.xml.
+   * Set NEXT_PUBLIC_SITE_URL in the deploy environment to the live domain.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://v0-nazeer-micro-irrigation.vercel.app",
 } as const;
 
 export interface Stat {
@@ -266,9 +271,10 @@ export const AUTOMOBILE_POINTS: { icon: IconName; title: string; body: string }[
 ];
 
 export const NAV_LINKS = [
-  { href: "#story", label: "Our Story" },
-  { href: "#products", label: "Products" },
-  { href: "#design", label: "System Design" },
+  { href: "#story", label: "Our story" },
+  { href: "#range", label: "The range" },
+  { href: "#design", label: "Design" },
+  { href: "#savings", label: "Savings" },
   { href: "#automobile", label: "Automobile" },
   { href: "#contact", label: "Contact" },
 ] as const;
