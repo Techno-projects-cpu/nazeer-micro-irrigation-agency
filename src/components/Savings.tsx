@@ -1,6 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { SITE } from "@/data/content";
+import { waLink } from "@/lib/whatsapp";
+import { Icon } from "./icons";
+import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -15,17 +19,16 @@ const CROPS = [
 const DRIP_RATIO = 0.4; // drip uses roughly 40% of flood water
 const POWER_PER_M3 = 2.5; // rupees per cubic metre of pumped water (indicative)
 
-const inr = (value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
-const volume = (value: number) => Math.round(value).toLocaleString("en-IN");
-
 const BENEFITS = ["20–30% more yield potential", "Far less weed growth", "Ready for fertigation"];
 
+/** 07 — the ledger: a printed statement of account, figures right-aligned. */
 export function Savings() {
   const [acres, setAcres] = useState(2);
   const [cropId, setCropId] = useState<(typeof CROPS)[number]["id"]>("vegetables");
 
+  const crop = CROPS.find((item) => item.id === cropId) ?? CROPS[0];
+
   const result = useMemo(() => {
-    const crop = CROPS.find((item) => item.id === cropId) ?? CROPS[0];
     const flood = crop.floodPerAcre * acres;
     const drip = flood * DRIP_RATIO;
     return {
@@ -35,36 +38,32 @@ export function Savings() {
       money: (flood - drip) * POWER_PER_M3,
       savedPct: Math.round((1 - DRIP_RATIO) * 100),
     };
-  }, [acres, cropId]);
+  }, [acres, crop]);
 
-  const rows = [
-    { label: "Flood water / season", value: volume(result.flood), unit: "m³" },
-    { label: "With drip / season", value: volume(result.drip), unit: "m³" },
-    { label: "Water saved", value: volume(result.saved), unit: `m³ · ${result.savedPct}%` },
-    { label: "Pumping saved", value: inr(result.money), unit: "per season" },
-  ];
+  const message = `Hello Nazeer Micro Irrigation! I have ${acres} acre${
+    acres > 1 ? "s" : ""
+  } of ${crop.label.toLowerCase()}. Please send an estimate for a drip system and confirm the saving.`;
 
   return (
-    <section id="savings" className="section scroll-mt-24">
+    <section id="savings" className="section scroll-mt-4">
       <div className="shell">
         <SectionHeading
-          index="06"
+          index="07"
           label="Savings"
           title="See what drip could save you."
           lead="Set your field size and crop for an indicative season of savings. Your free design visit turns these into exact numbers."
         />
 
-        <Reveal delay={80} className="mt-14 md:mt-20">
-          <div className="hairline-t hairline-b grid lg:grid-cols-2">
-            {/* Controls */}
-            <div className="py-8 lg:border-r lg:border-hairline lg:pr-14 lg:py-10">
+        <div className="g12 mt-14 md:mt-20">
+          <Reveal className="md:col-span-5">
+            <div>
               <div className="flex items-baseline justify-between gap-6">
                 <label htmlFor="acres" className="label label-ink">
                   Field size
                 </label>
-                <p className="font-display text-[1.75rem] leading-none font-medium tracking-[-0.02em] text-ink">
+                <p className="numeral text-[1.75rem] text-ink md:text-[2rem]">
                   {acres}
-                  <span className="ml-1.5 text-[0.875rem] font-normal text-ink-soft">
+                  <span className="ml-1.5 font-sans text-[0.8125rem] font-normal text-ink-soft">
                     acre{acres > 1 ? "s" : ""}
                   </span>
                 </p>
@@ -79,29 +78,29 @@ export function Savings() {
                 onChange={(event) => setAcres(Number(event.target.value))}
                 className="mt-5 h-11 w-full accent-moss"
               />
-              <div className="label flex justify-between">
+              <div className="label mt-1 flex justify-between">
                 <span>0.5</span>
                 <span>20</span>
               </div>
 
-              <fieldset className="mt-10">
+              <fieldset className="mt-12">
                 <legend className="label label-ink">Crop</legend>
-                <div className="mt-5 flex flex-wrap gap-x-7 gap-y-3">
-                  {CROPS.map((crop) => {
-                    const active = crop.id === cropId;
+                <div className="mt-5 flex flex-wrap gap-x-7 gap-y-2">
+                  {CROPS.map((option) => {
+                    const isActive = option.id === cropId;
                     return (
                       <button
-                        key={crop.id}
+                        key={option.id}
                         type="button"
-                        onClick={() => setCropId(crop.id)}
-                        aria-pressed={active}
+                        onClick={() => setCropId(option.id)}
+                        aria-pressed={isActive}
                         className="tap"
                       >
                         <span
-                          data-active={active}
-                          className={`label link-quiet ${active ? "label-ink" : ""}`}
+                          data-active={isActive}
+                          className={`label link-quiet ${isActive ? "text-ink" : ""}`}
                         >
-                          {crop.label}
+                          {option.label}
                         </span>
                       </button>
                     );
@@ -109,41 +108,95 @@ export function Savings() {
                 </div>
               </fieldset>
 
-              <p className="mt-10 max-w-[26rem] text-[0.8125rem] leading-relaxed text-ink-faint">
+              <p className="fine mt-12 max-w-[26rem]">
                 Assumes drip uses about {Math.round(DRIP_RATIO * 100)}% of the water a flooded field
-                needs, pumped at roughly {inr(POWER_PER_M3)} per m³. Indicative only.
+                needs, pumped at roughly ₹{POWER_PER_M3.toFixed(2)} per m³. Indicative only — real
+                figures depend on your soil, source and crop stage.
               </p>
             </div>
+          </Reveal>
 
-            {/* Results */}
-            <dl className="grid grid-cols-2 border-t border-hairline lg:border-t-0">
-              {rows.map((row, index) => (
-                <div
-                  key={row.label}
-                  className={`border-hairline px-5 py-7 sm:px-8 sm:py-9 ${
-                    index % 2 === 0 ? "border-r" : ""
-                  } ${index < 2 ? "border-b" : ""}`}
-                >
-                  <dt className="label">{row.label}</dt>
-                  <dd className="font-display mt-3 text-[1.5rem] leading-none font-medium tracking-[-0.02em] text-ink tabular-nums sm:text-[2rem]">
-                    {row.value}
-                    <span className="ml-1.5 font-sans text-[0.75rem] font-normal text-ink-soft">
-                      {row.unit}
-                    </span>
-                  </dd>
-                </div>
+          <Reveal delay={90} className="md:col-span-6 md:col-start-7">
+            <table className="ledger">
+              <caption className="sr-only">
+                Indicative water and pumping savings for {acres} acre{acres > 1 ? "s" : ""} of{" "}
+                {crop.label.toLowerCase()}, one season
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Particulars</th>
+                  <th scope="col" className="col-unit">
+                    Unit
+                  </th>
+                  <th scope="col" className="col-figure text-right">
+                    Season
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" className="text-left font-normal">
+                    Flood water
+                  </th>
+                  <td className="col-unit">m³</td>
+                  <td className="col-figure">
+                    <CountUp value={Math.round(result.flood)} />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" className="text-left font-normal">
+                    With drip
+                  </th>
+                  <td className="col-unit">m³</td>
+                  <td className="col-figure">
+                    <CountUp value={Math.round(result.drip)} />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" className="text-left font-medium">
+                    Water saved
+                  </th>
+                  <td className="col-unit">m³ · {result.savedPct}%</td>
+                  <td className="col-figure font-medium">
+                    <CountUp value={Math.round(result.saved)} />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" className="text-left font-normal">
+                    Pumping cost saved
+                  </th>
+                  <td className="col-unit">₹ / season</td>
+                  <td className="col-figure">
+                    <CountUp value={Math.round(result.money)} />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <a
+                href={waLink(message)}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-ink w-full sm:w-auto"
+              >
+                Send me this estimate
+                <Icon name="arrow-right" className="h-4 w-4" strokeWidth={1.6} />
+              </a>
+              <a href={SITE.phoneHref} className="tap text-[0.9375rem] font-medium text-ink">
+                <span className="link-quiet">Or call {SITE.phoneDisplay}</span>
+              </a>
+            </div>
+
+            <ul className="mt-8 flex flex-wrap gap-x-10 gap-y-3">
+              {BENEFITS.map((benefit) => (
+                <li key={benefit} className="label">
+                  {benefit}
+                </li>
               ))}
-            </dl>
-          </div>
-
-          <ul className="mt-8 flex flex-wrap gap-x-10 gap-y-3">
-            {BENEFITS.map((benefit) => (
-              <li key={benefit} className="label">
-                {benefit}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
