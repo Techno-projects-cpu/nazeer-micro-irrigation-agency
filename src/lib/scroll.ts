@@ -7,8 +7,9 @@ import type Lenis from "lenis";
  * created by <SmoothScroll />, without prop-drilling or context.
  */
 
-/** Height of the sticky header, used as the anchor scroll offset. */
-export const HEADER_OFFSET = 72;
+/** Anchor offset: sections carry their own top padding, so this only
+ *  has to hold the heading clear of the sticky bar. Matches `scroll-mt-4`. */
+export const HEADER_OFFSET = 16;
 
 let instance: Lenis | null = null;
 

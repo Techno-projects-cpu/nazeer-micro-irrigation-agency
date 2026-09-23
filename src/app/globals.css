@@ -1,32 +1,41 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — off-white canvas, ink text, one green accent.
-   No shadows, no gradients: separation is done with hairlines and whitespace.
+   IRRIGATION ALMANAC — design tokens
+   A printed annual report from a firm twenty years in the field: warm canvas,
+   ink hairlines, one moss accent, field photography treated as plates.
+   Separation comes from hairlines, tone bands and type — nothing else.
 --------------------------------------------------------------------------- */
+
 @theme {
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, "Segoe UI",
     Helvetica, Arial, sans-serif;
-  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
   /* Canvas */
-  --color-canvas: #fbfaf6;
-  --color-panel: #f4f3ed;
+  --color-canvas: #fbf9f4;
+  --color-panel: #f3f1e9;
 
   /* Ink */
-  --color-ink: #17170f;
-  --color-ink-soft: #5c5c52;
+  --color-ink: #14140f;
+  --color-ink-soft: #55554b;
   --color-ink-faint: #6f6f64;
 
   /* Lines */
-  --color-hairline: #e2e0d6;
-  --color-hairline-ink: #cdcabd;
+  --color-hairline: #e3e0d5;
+  --color-hairline-ink: #ccc8ba;
+
+  /* The one dark counterpoint */
+  --color-night: #0f1511;
 
   /* The single accent */
   --color-moss: #1e5b3a;
   --color-moss-deep: #143f28;
+
+  /* Shared easing — slow settle, no bounce */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Shadows are deliberately removed from the scale. */
   --shadow-*: initial;
@@ -37,6 +46,7 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
     background-color: var(--color-canvas);
+    --focus-ring: var(--color-moss);
   }
 
   body {
@@ -62,8 +72,9 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-moss);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 3px;
+    border-radius: 0;
   }
 
   /* 16px everywhere so mobile Safari never zooms on focus. */
@@ -89,11 +100,11 @@
 }
 
 @layer components {
-  /* Tiny tracked mono label */
+  /* --- Tiny tracked mono label: every measured figure on the page --------- */
   .label {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-ink-faint);
@@ -104,48 +115,74 @@
   .label-moss {
     color: var(--color-moss);
   }
+  .label-tight {
+    letter-spacing: 0.14em;
+  }
 
-  /* Editorial type scale — fluid, designed from 360px up */
-  .display-1 {
+  /* --- Type scale ---------------------------------------------------------
+     `.statement` is the largest voice on the page and is used exactly twice:
+     the cover headline and the epigraph. Everything else stays measured.
+  ------------------------------------------------------------------------- */
+  .statement {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(2.35rem, 10.2vw, 5.5rem);
-    line-height: 1.03;
-    letter-spacing: -0.025em;
-    font-variation-settings: "SOFT" 0, "WONK" 0;
+    font-size: clamp(2.25rem, 10.2vw, 6.6rem);
+    line-height: 0.99;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
   }
   .display-2 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(1.85rem, 6.4vw, 3.25rem);
+    font-size: clamp(1.8rem, 4.9vw, 3.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+  }
+  /* The epigraph: statement type, one size down from the cover. */
+  .epigraph {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.85rem, 5.4vw, 3.9rem);
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.024em;
+    text-wrap: balance;
   }
   .display-3 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(1.25rem, 4.4vw, 1.6rem);
-    line-height: 1.25;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    line-height: 1.28;
     letter-spacing: -0.012em;
   }
   .numeral {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(2.35rem, 8.6vw, 3.25rem);
+    font-size: clamp(2.1rem, 6.4vw, 3.4rem);
     line-height: 1;
     letter-spacing: -0.03em;
     font-variant-numeric: lining-nums tabular-nums;
   }
   .lead {
-    font-size: clamp(1rem, 2.4vw, 1.125rem);
+    font-size: clamp(1rem, 2.3vw, 1.125rem);
     line-height: 1.7;
     color: var(--color-ink-soft);
   }
+  .body-copy {
+    font-size: 1.0625rem;
+    line-height: 1.72;
+    color: var(--color-ink-soft);
+  }
+  .fine {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-ink-faint);
+  }
 
-  /* Content shell */
+  /* --- Content shell & grid ---------------------------------------------- */
   .shell {
     width: 100%;
-    max-width: 78rem;
+    max-width: 72rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
@@ -160,21 +197,76 @@
     }
   }
 
-  /* 44px thumb target that keeps tight typography */
+  /* The almanac grid: 4 columns on a phone, 12 from tablet up. */
+  .g12 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    row-gap: 2.5rem;
+  }
+  .g12 > * {
+    grid-column: span 4;
+  }
+  @media (min-width: 768px) {
+    .g12 {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+    .g12 > * {
+      grid-column: span 12;
+    }
+  }
+
+  /* --- Tone bands ---------------------------------------------------------
+     Each band re-declares the ink + hairline variables, so every utility
+     inside it (text-ink, border-hairline, .label …) follows the tone.
+  ------------------------------------------------------------------------- */
+  .band {
+    position: relative;
+  }
+  .band-panel {
+    background-color: var(--color-panel);
+    /* Keep small mono labels above 4.5:1 on the darker panel. */
+    --color-ink-faint: #5e5e54;
+    --color-hairline: #ddd9ca;
+  }
+  .band-night {
+    background-color: var(--color-night);
+    --color-ink: #fbf9f4;
+    --color-ink-soft: rgba(251, 249, 244, 0.74);
+    --color-ink-faint: rgba(251, 249, 244, 0.62);
+    --color-hairline: rgba(251, 249, 244, 0.16);
+    --color-hairline-ink: rgba(251, 249, 244, 0.3);
+    --color-moss: #7fc0a0;
+    --focus-ring: #9ad3b4;
+    color: var(--color-ink);
+  }
+  .band-moss {
+    background-color: var(--color-moss);
+    --color-ink: #fbf9f4;
+    --color-ink-soft: rgba(251, 249, 244, 0.84);
+    --color-ink-faint: rgba(251, 249, 244, 0.75);
+    --color-hairline: rgba(251, 249, 244, 0.22);
+    --color-hairline-ink: rgba(251, 249, 244, 0.4);
+    --focus-ring: #fbf9f4;
+    color: var(--color-ink);
+  }
+
+  /* --- 44px thumb target that keeps tight typography --------------------- */
   .tap {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
   }
 
-  /* Quiet link: an underline that grows in on hover */
+  /* --- Quiet link: an underline that wipes in ---------------------------- */
   .link-quiet {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
     background-size: 0% 1px;
     background-position: 0 100%;
     padding-bottom: 0.14em;
-    transition: background-size 380ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background-size 380ms var(--ease-editorial);
   }
   .link-quiet:hover,
   .link-quiet:focus-visible,
@@ -182,7 +274,7 @@
     background-size: 100% 1px;
   }
 
-  /* Buttons — square, 48px tall, no shadow */
+  /* --- Buttons — square, 48px tall, no shadow ---------------------------- */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -204,7 +296,14 @@
     color: var(--color-canvas);
   }
   .btn-ink:hover {
+    background-color: var(--color-moss-deep);
+  }
+  .btn-moss {
     background-color: var(--color-moss);
+    color: var(--color-canvas);
+  }
+  .btn-moss:hover {
+    background-color: var(--color-moss-deep);
   }
   .btn-line {
     border-color: var(--color-hairline-ink);
@@ -213,8 +312,16 @@
   .btn-line:hover {
     border-color: var(--color-ink);
   }
+  .btn-canvas {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+  }
+  .btn-canvas:hover {
+    background-color: var(--color-ink);
+    color: var(--color-canvas);
+  }
 
-  /* Form fields — hairline, 16px, flat */
+  /* --- Form fields — hairline, 16px, flat -------------------------------- */
   .field {
     display: block;
     width: 100%;
@@ -236,20 +343,21 @@
   .field:focus {
     outline: none;
     border-color: var(--color-moss);
+    box-shadow: inset 0 -1px 0 0 var(--color-moss);
   }
 
-  /* Section rhythm */
+  /* --- Section rhythm ---------------------------------------------------- */
   .section {
-    padding-block: 4.5rem;
+    padding-block: 4.25rem;
   }
   @media (min-width: 768px) {
     .section {
-      padding-block: 7rem;
+      padding-block: 6.5rem;
     }
   }
   @media (min-width: 1024px) {
     .section {
-      padding-block: 8.5rem;
+      padding-block: 8rem;
     }
   }
 
@@ -259,8 +367,120 @@
   .hairline-b {
     border-bottom: 1px solid var(--color-hairline);
   }
+  .hairline-r {
+    border-right: 1px solid var(--color-hairline);
+  }
 
-  /* FAQ disclosure marker — swaps glyph, no motion. */
+  /* --- Plates: one photographic grade for the whole shoot ---------------- */
+  .plate {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-panel);
+  }
+  .plate img {
+    /* Restrained, consistent grade so all eight plates read as one shoot. */
+    filter: saturate(0.88) contrast(1.05) brightness(1.01) sepia(0.07);
+  }
+  /* Flat scrim, used for legibility over a photograph only. */
+  .scrim-bottom {
+    background-image: linear-gradient(
+      to top,
+      rgb(15 21 17 / 0.9) 0%,
+      rgb(15 21 17 / 0.72) 34%,
+      rgb(15 21 17 / 0.34) 68%,
+      rgb(15 21 17 / 0.12) 100%
+    );
+  }
+  .scrim-plate {
+    background-image: linear-gradient(to top, rgb(15 21 17 / 0.62), rgb(15 21 17 / 0.05));
+  }
+
+  /* --- The printed ledger ------------------------------------------------ */
+  .ledger {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .ledger thead th {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    text-align: left;
+    padding: 0 0 0.75rem;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .ledger td,
+  .ledger tbody th {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--color-hairline);
+    vertical-align: baseline;
+    font-size: 0.9375rem;
+  }
+  .ledger tbody th {
+    font-weight: 400;
+    color: var(--color-ink);
+    text-align: left;
+    padding-right: 1rem;
+  }
+  .ledger .col-unit {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    white-space: nowrap;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 7.5rem;
+  }
+  .ledger td.col-figure {
+    text-align: right;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3.4vw, 1.85rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+  .ledger tbody tr:last-child > * {
+    border-bottom: 1px solid var(--color-ink);
+  }
+  @media (max-width: 419px) {
+    .ledger .col-unit {
+      display: none;
+    }
+  }
+
+  /* --- Specimen block: rules like a table, no boxes ---------------------- */
+  .specimen-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--color-hairline);
+  }
+  .specimen-grid > * {
+    border-bottom: 1px solid var(--color-hairline);
+    padding-block: 1.75rem;
+  }
+  @media (min-width: 768px) {
+    .specimen-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .specimen-grid > * {
+      padding-block: 2.25rem;
+    }
+    .specimen-grid > *:nth-child(odd) {
+      border-right: 1px solid var(--color-hairline);
+      padding-right: 2.5rem;
+    }
+    .specimen-grid > *:nth-child(even) {
+      padding-left: 2.5rem;
+    }
+  }
+
+  /* --- FAQ disclosure marker — swaps glyph, no motion -------------------- */
   .acc [data-marker="open"] {
     display: none;
   }
@@ -273,30 +493,48 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Title reveal — the one masked line reveal, on the hero headline only.
-   Pure CSS so the headline is never hidden behind JavaScript.
+   Reveal — a 14px fade-up, once, on first view.
+   The hidden state is only applied when JS is running (see <noscript> in the
+   layout), so nothing is ever invisible without JavaScript.
+--------------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 14px));
+  transition:
+    opacity 700ms var(--ease-editorial),
+    transform 700ms var(--ease-editorial);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal][data-inview="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Title reveal — the masked line rise, on the cover headline only.
+   Pure CSS, so the headline is painted before hydration.
 --------------------------------------------------------------------------- */
 .line-mask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.08em;
+  padding-bottom: 0.09em;
 }
 .line-mask > span {
   display: block;
   transform: translateY(112%);
-  animation: line-rise 1050ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: line-rise 1050ms var(--ease-editorial) forwards;
 }
 .line-mask > span:nth-child(1) {
   animation-delay: var(--line-base, 80ms);
 }
 .line-mask > span:nth-child(2) {
-  animation-delay: calc(var(--line-base, 80ms) + 90ms);
+  animation-delay: calc(var(--line-base, 80ms) + 95ms);
 }
 .line-mask > span:nth-child(3) {
-  animation-delay: calc(var(--line-base, 80ms) + 180ms);
+  animation-delay: calc(var(--line-base, 80ms) + 190ms);
 }
 .line-mask > span:nth-child(n + 4) {
-  animation-delay: calc(var(--line-base, 80ms) + 270ms);
+  animation-delay: calc(var(--line-base, 80ms) + 285ms);
 }
 
 @keyframes line-rise {
@@ -305,22 +543,213 @@
   }
 }
 
-/* Soft data rule used in the water-use comparison */
-.rule-moss {
+/* The cover photograph settles once (1.04 → 1, 1.4s), then breathes —
+   the one subtle living move the cover is allowed. */
+.plate-settle {
+  animation:
+    plate-settle 1400ms var(--ease-editorial) both,
+    plate-breathe 26s ease-in-out 1.8s infinite alternate;
+}
+@keyframes plate-settle {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes plate-breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.03);
+  }
+}
+
+/* --- Motion II: the living almanac --------------------------------------
+   Everything below is transform-only (no layout shift), runs once, and is
+   retired by the reduced-motion block and the <noscript> guard.
+--------------------------------------------------------------------------- */
+
+/* Section rules draw themselves in, left to right, as they are reached. */
+.rule-draw::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: var(--color-hairline);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 900ms var(--ease-editorial) 80ms;
+}
+[data-reveal][data-inview="true"] .rule-draw::before {
+  transform: scaleX(1);
+}
+/* The cover's caption rule draws once, on load. */
+.rule-draw-once::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: var(--color-hairline);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: rule-grow 900ms var(--ease-editorial) 350ms both;
+}
+@keyframes rule-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Plates reached on the scroll settle from 1.06 → 1, like the cover does. */
+[data-reveal] .plate-zoom img {
+  transform: scale(1.06);
+  transition: transform 1400ms var(--ease-editorial);
+}
+[data-reveal][data-inview="true"] .plate-zoom img {
+  transform: scale(1);
+}
+
+/* The epigraph rises word by word. */
+.word-rise {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.09em;
+  margin-bottom: -0.09em;
+}
+.word-rise > span {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 700ms var(--ease-editorial);
+  transition-delay: var(--wd, 0ms);
+}
+[data-reveal][data-inview="true"] .word-rise > span {
+  transform: none;
+}
+
+/* Reading progress: a 1px ink hairline under the sticky bar. */
+.progress-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background-color: var(--color-ink);
+  opacity: 0.45;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* Tactile details: the arrow walks, hanging numbers blush moss on hover. */
+.btn svg {
+  transition: transform 300ms var(--ease-editorial);
+}
+.btn:hover svg {
+  transform: translateX(3px);
+}
+.row-num {
+  transition: color 300ms ease;
+}
+li:hover .row-num {
+  color: var(--color-moss);
+}
+
+/* ---------------------------------------------------------------------------
+   Comparison bars — hairlines that grow in once, when the figure is read.
+--------------------------------------------------------------------------- */
+.bar {
+  height: 2px;
+  width: 0;
+  transition: width 900ms var(--ease-editorial);
+  transition-delay: var(--bar-delay, 0ms);
+}
+[data-inview="true"] .bar {
+  width: var(--bar-width, 100%);
+}
+.bar-ink {
+  background-color: var(--color-ink-soft);
+}
+.bar-moss {
   background-color: var(--color-moss);
 }
-.rule-ink {
+
+/* ---------------------------------------------------------------------------
+   Catalogue crossfade — the specimen plate beside the table.
+--------------------------------------------------------------------------- */
+.crossfade > * {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.crossfade > [data-on="true"] {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Running index rail — the numbers 01–10, printed in the gutter.
+--------------------------------------------------------------------------- */
+.rail {
+  position: fixed;
+  top: 50%;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+@media (min-width: 1280px) {
+  .rail {
+    display: flex;
+  }
+}
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding-block: 0.25rem;
+}
+.rail-rule {
+  display: block;
+  height: 1px;
+  width: 0.5rem;
+  flex: none;
   background-color: var(--color-hairline-ink);
+  transition:
+    width 300ms var(--ease-editorial),
+    background-color 300ms ease;
+}
+.rail-item[data-active="true"] .rail-rule {
+  width: 2rem;
+  background-color: var(--color-moss);
+}
+.rail-num {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-faint);
+  transition: color 300ms ease;
+}
+.rail-item[data-active="true"] .rail-num {
+  color: var(--color-ink);
 }
 
 /* Keep the sticky bars' hairlines crisp on fractional zoom levels */
 @media (min-resolution: 2dppx) {
   .hairline-t,
-  .hairline-b {
+  .hairline-b,
+  .ledger thead th,
+  .ledger td,
+  .ledger tbody th {
     border-width: 0.5px;
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Reduced motion — everything settles, nothing hides, the cover headline is
+   simply printed.
+--------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -331,10 +760,48 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
   .line-mask > span {
     transform: none;
     animation: none;
+  }
+  .plate-settle {
+    animation: none;
+    transform: none;
+  }
+  .rule-draw::before,
+  .rule-draw-once::before {
+    transform: none;
+    animation: none;
+  }
+  [data-reveal] .plate-zoom img {
+    transform: none;
+    transition: none;
+  }
+  .word-rise > span {
+    transform: none;
+    transition: none;
+  }
+  .btn:hover svg {
+    transform: none;
+  }
+  .bar {
+    width: var(--bar-width, 100%);
+  }
+  .crossfade > * {
+    opacity: 0;
+  }
+  .crossfade > [data-on="true"] {
+    opacity: 1;
+  }
+  .rail-rule {
+    transition: none;
   }
   .link-quiet {
     transition: none;

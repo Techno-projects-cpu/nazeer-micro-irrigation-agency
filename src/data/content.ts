@@ -1,5 +1,3 @@
-import type { IconName } from "@/components/icons";
-
 export const SITE = {
   name: "Nazeer Micro Irrigation Agency",
   shortName: "Nazeer Irrigation",
@@ -18,6 +16,106 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://v0-nazeer-micro-irrigation.vercel.app",
 } as const;
 
+/* ---------------------------------------------------------------------------
+   Plates — the eight photographs, numbered like the plates of an almanac so
+   the page can refer to them from anywhere ("see plate 03").
+--------------------------------------------------------------------------- */
+
+export interface Plate {
+  /** Two-digit plate number, printed as `PLATE 01`. */
+  id: string;
+  src: string;
+  /** Empty string marks a decorative plate (rendered with alt=""). */
+  alt: string;
+  caption: string;
+}
+
+export const PLATES = {
+  hero: {
+    id: "01",
+    src: "/images/hero-field.jpg",
+    alt: "Rows of drip-irrigated crops running to the horizon at golden hour in the Godavari delta",
+    caption: "Drip lines at work · Godavari delta",
+  },
+  aerial: {
+    id: "02",
+    src: "/images/field-aerial.jpg",
+    alt: "Aerial view of patchwork farmland and irrigation channels in the Godavari delta",
+    caption: "Furrow and channel irrigation in the delta",
+  },
+  drip: {
+    id: "03",
+    src: "/images/drip-closeup.jpg",
+    alt: "Close-up of a drip emitter releasing a single droplet at the root zone",
+    caption: "One emitter, one plant, season after season",
+  },
+  sprinkler: {
+    id: "04",
+    src: "/images/sprinkler.jpg",
+    alt: "Micro sprinkler throwing a fine backlit mist over a vegetable crop",
+    caption: "Micro-sprinklers in a vegetable field",
+  },
+  polyhouse: {
+    id: "05",
+    src: "/images/polyhouse.jpg",
+    alt: "White polyhouse with rows of crops growing on raised beds inside",
+    caption: "Polyhouses, framed and clad by our team",
+  },
+  shelves: {
+    id: "06",
+    src: "/images/shop-shelves.jpg",
+    alt: "Organised shelves of pipes, filters and fittings inside the Nazeer shop",
+    caption: "The aisles · Godavari region",
+  },
+  desk: {
+    id: "07",
+    src: "/images/design-desk.jpg",
+    alt: "Hands drawing a farm irrigation layout on a field map beside a compass and calculator",
+    caption: "Every layout drawn by hand, for your field",
+  },
+  automobile: {
+    id: "08",
+    src: "/images/automobile.jpg",
+    alt: "Motorbike spare parts on shelves — chains, sprockets and boxed components",
+    caption: "Spares counter · under the same roof",
+  },
+} as const satisfies Record<string, Plate>;
+
+export type PlateId = keyof typeof PLATES;
+
+/**
+ * The running index: the ten numbered sections of the almanac, printed in the
+ * left gutter from 1280px up. The hero is the cover, so it carries no number.
+ */
+export const SECTIONS: { index: string; id: string; label: string }[] = [
+  { index: "01", id: "story", label: "Story" },
+  { index: "02", id: "standards", label: "Standards" },
+  { index: "03", id: "field", label: "In the field" },
+  { index: "04", id: "range", label: "The range" },
+  { index: "05", id: "design", label: "Design" },
+  { index: "06", id: "water", label: "The water" },
+  { index: "07", id: "savings", label: "Savings" },
+  { index: "08", id: "automobile", label: "Automobile" },
+  { index: "09", id: "why", label: "Why us" },
+  { index: "10", id: "visit", label: "Visit" },
+];
+
+/** A house epigraph — the shop's own standing note, not a customer quote. */
+export const EPIGRAPH = {
+  quote: "A flooded field drinks for itself. A designed field drinks for the crop.",
+  attribution: "House note · Nazeer Micro Irrigation Agency",
+} as const;
+
+/**
+ * A single-line credit in the footer. Flip `enabled` to true and fill in
+ * `name` / `href` to switch it on — nothing else on the page changes.
+ */
+export const STUDIO_CREDIT = {
+  enabled: false,
+  name: "",
+  href: "",
+} as const;
+
 export interface Stat {
   value: number;
   suffix: string;
@@ -32,29 +130,24 @@ export const STATS: Stat[] = [
 ];
 
 export interface QualityPoint {
-  icon: IconName;
   title: string;
   body: string;
 }
 
 export const QUALITY: QualityPoint[] = [
   {
-    icon: "badge",
     title: "ISI Certified",
     body: "Every product we stock meets the highest industry standards with proper ISI certification and quality marks.",
   },
   {
-    icon: "shield",
     title: "Premium Grade Materials",
     body: "We source from top manufacturers to ensure UV-stabilised, durable and long-lasting irrigation components.",
   },
   {
-    icon: "gauge",
     title: "Tested & Verified",
     body: "Each product undergoes rigorous testing for pressure tolerance, flow consistency and weather resistance.",
   },
   {
-    icon: "leaf",
     title: "Eco-Friendly Solutions",
     body: "Micro irrigation conserves up to 60% of the water used by traditional methods — better yields, lighter bills.",
   },
@@ -63,11 +156,12 @@ export const QUALITY: QualityPoint[] = [
 export type ProductTag = "irrigation" | "water" | "structure" | "tools";
 
 export interface Product {
-  icon: IconName;
   title: string;
   blurb: string;
   items: string[];
   tags: ProductTag[];
+  /** Which photograph the specimen row points at. */
+  plate: PlateId;
 }
 
 export const PRODUCT_FILTERS: { id: "all" | ProductTag; label: string }[] = [
@@ -80,103 +174,96 @@ export const PRODUCT_FILTERS: { id: "all" | ProductTag; label: string }[] = [
 
 export const PRODUCTS: Product[] = [
   {
-    icon: "droplet",
     title: "Drip Systems",
     blurb:
       "Complete inline and online drip irrigation systems for row crops, orchards and greenhouses.",
     items: ["Inline & online drippers", "Pressure-compensating emitters", "Micro-tubes, jets & bubblers"],
     tags: ["irrigation"],
+    plate: "drip",
   },
   {
-    icon: "sprinkler",
     title: "Sprinkler Systems",
     blurb:
       "Mini and micro sprinklers for uniform water distribution across every terrain type.",
     items: ["Micro & mini sprinklers", "Rain guns for open fields", "Risers, adapters & stakes"],
     tags: ["irrigation"],
+    plate: "sprinkler",
   },
   {
-    icon: "waves",
     title: "Drip Tapes & Laterals",
     blurb:
       "High-quality flat and round drip tapes with precise emitter spacing for maximum efficiency.",
     items: ["Flat drip tape, 0.15–0.6 mm", "Round laterals 12–20 mm", "Custom emitter spacing"],
     tags: ["irrigation"],
+    plate: "hero",
   },
   {
-    icon: "funnel",
     title: "Filters & Fertigation",
     blurb:
       "Sand, disc and screen filters along with venturi-based fertigation equipment.",
     items: ["Screen, disc & sand filters", "Venturi injectors & dosing", "Hydro-cyclone desanders"],
     tags: ["water"],
+    plate: "shelves",
   },
   {
-    icon: "package",
     title: "Pipes & Fittings",
-    blurb:
-      "HDPE and PVC pipes with a full range of connectors, valves and end caps.",
+    blurb: "HDPE and PVC pipes with a full range of connectors, valves and end caps.",
     items: ["HDPE & PVC pipes, all sizes", "Ball, air & flush valves", "Couplers, elbows & end caps"],
     tags: ["water"],
+    plate: "shelves",
   },
   {
-    icon: "wrench",
     title: "Accessories & Tools",
-    blurb:
-      "Punch tools, grommet take-offs, end plugs, pressure gauges — everything you need.",
+    blurb: "Punch tools, grommet take-offs, end plugs, pressure gauges — everything you need.",
     items: ["Punch tools & take-offs", "Pressure gauges & meters", "End plugs, clamps & seals"],
     tags: ["tools"],
+    plate: "desk",
   },
   {
-    icon: "layers",
     title: "Mulch Films & Crop Covers",
     blurb:
       "Premium mulch films for weed control and moisture retention, plus crop covers for season extension.",
     items: ["Silver-black mulch film", "Insect & shade nets", "Crop covers & row covers"],
     tags: ["structure"],
+    plate: "polyhouse",
   },
   {
-    icon: "greenhouse",
     title: "Polyhouses & Greenhouses",
     blurb:
       "Complete polyhouse and greenhouse structures with cladding, ventilation and climate control.",
     items: ["GI & bamboo frame structures", "UV-stabilised cladding films", "Ventilation & fan-pad cooling"],
     tags: ["structure"],
+    plate: "polyhouse",
   },
   {
-    icon: "tag",
     title: "Special Offers",
     blurb:
       "Seasonal deals, combo packs and bulk pricing on popular irrigation products — great value for every farmer.",
     items: ["Seasonal combo packs", "Bulk & group discounts", "Subsidy-scheme guidance"],
     tags: ["tools"],
+    plate: "automobile",
   },
 ];
 
 export interface ProcessStep {
-  icon: IconName;
   title: string;
   body: string;
 }
 
 export const PROCESS: ProcessStep[] = [
   {
-    icon: "pin",
     title: "Site Assessment",
     body: "Thorough analysis of your land topography, soil type, water source and crop layout before we design anything.",
   },
   {
-    icon: "pencil",
     title: "Custom System Design",
     body: "A tailored irrigation plan drawn from scratch for your field dimensions, crop type and water availability.",
   },
   {
-    icon: "gauge",
     title: "Precision Layout",
     body: "Exact lateral spacing, emitter placement and mainline routing, calculated for maximum water-use efficiency.",
   },
   {
-    icon: "sprout",
     title: "End-to-End Execution",
     body: "From blueprint to installation and after-sales support — we handle the whole process so you can focus on farming.",
   },
@@ -247,24 +334,20 @@ export const FAQS: Faq[] = [
   },
 ];
 
-export const AUTOMOBILE_POINTS: { icon: IconName; title: string; body: string }[] = [
+export const AUTOMOBILE_POINTS: { title: string; body: string }[] = [
   {
-    icon: "badge",
     title: "Genuine Spare Parts",
     body: "Original and OEM-grade parts for all major motorbike brands — perfect fitment, long life.",
   },
   {
-    icon: "tag",
     title: "Reasonable Pricing",
     body: "Every part is priced fairly, so vehicle repairs never become a financial burden.",
   },
   {
-    icon: "package",
     title: "Wide Range of Parts",
     body: "Brake shoes, clutch plates, chains, sprockets, filters and electricals — one roof.",
   },
   {
-    icon: "users",
     title: "Farmer-First Approach",
     body: "Your bike is your lifeline. Quick availability and honest advice get you moving sooner.",
   },
@@ -276,5 +359,6 @@ export const NAV_LINKS = [
   { href: "#design", label: "Design" },
   { href: "#savings", label: "Savings" },
   { href: "#automobile", label: "Automobile" },
-  { href: "#contact", label: "Contact" },
+  { href: "#why", label: "Why us" },
+  { href: "#visit", label: "Visit" },
 ] as const;
