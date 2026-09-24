@@ -34,6 +34,8 @@
   /* The single accent */
   --color-moss: #1e5b3a;
   --color-moss-deep: #143f28;
+  /* Button hover/press — brighter, still 5:1 against canvas text. */
+  --color-moss-bright: #25784b;
 
   /* Shared easing — slow settle, no bounce */
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
@@ -277,8 +279,14 @@
     background-size: 100% 1px;
   }
 
-  /* --- Buttons — square, 48px tall, no shadow ---------------------------- */
+  /* --- Buttons — square, 48px tall ---------------------------------------
+     At rest they sit flat on the page. On hover (pointer), keyboard focus or
+     a press (touch — phones have no hover), the colour flips and the button
+     lifts off the page onto a hard, contrasting offset block: a printed
+     shadow, never a blur. Each variant names its block colour in --btn-pop.
+  ------------------------------------------------------------------------- */
   .btn {
+    --btn-pop: var(--color-ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -290,31 +298,63 @@
     font-weight: 500;
     letter-spacing: -0.005em;
     transition:
-      background-color 240ms ease,
-      border-color 240ms ease,
-      color 240ms ease;
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      transform 260ms var(--ease-editorial),
+      box-shadow 260ms var(--ease-editorial);
   }
+  @media (hover: hover) {
+    .btn:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 6px 6px 0 0 var(--btn-pop);
+    }
+  }
+  .btn:focus-visible {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--btn-pop);
+  }
+  /* The press: pointer users feel it sink back; touch users see it pop. */
+  .btn:active {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 0 var(--btn-pop);
+  }
+
+  /* Ink → bright moss, lifting off an ink block. */
   .btn-ink {
     background-color: var(--color-ink);
     color: var(--color-canvas);
   }
+  /* Moss → deep moss, lifting off an ink block. */
   .btn-moss {
     background-color: var(--color-moss);
     color: var(--color-canvas);
   }
+  /* Outline → solid ink, lifting off a bright-moss block. */
   .btn-line {
+    --btn-pop: var(--color-moss-bright);
     border-color: var(--color-hairline-ink);
     color: var(--color-ink);
   }
+  /* Canvas (over the cover photograph) → bright moss, off a canvas block. */
   .btn-canvas {
+    --btn-pop: var(--color-canvas);
     background-color: var(--color-canvas);
     color: var(--color-ink);
   }
+  /* Inside the moss band --color-ink is re-declared as canvas, so these
+     variants get explicit colours there (otherwise: canvas on canvas). */
+  .band-moss .btn-canvas {
+    --btn-pop: var(--color-night);
+  }
+  .band-moss .btn-line {
+    --btn-pop: var(--color-night);
+  }
 
-  /* Colour change: on hover for pointers, and on press for touch screens
-     (phones have no hover, so :active gives the same feedback on tap). */
-  .btn-ink:active {
-    background-color: var(--color-moss);
+  .btn-ink:active,
+  .btn-canvas:active {
+    background-color: var(--color-moss-bright);
+    color: var(--color-canvas);
   }
   .btn-moss:active {
     background-color: var(--color-moss-deep);
@@ -324,24 +364,20 @@
     border-color: var(--color-ink);
     color: var(--color-canvas);
   }
-  .btn-canvas:active {
-    background-color: var(--color-moss);
+  .band-moss .btn-canvas:active {
+    background-color: var(--color-night);
     color: var(--color-canvas);
   }
-  /* Inside the moss band --color-ink is re-declared as canvas, so the generic
-     states above would print canvas-on-canvas; give them explicit colours. */
   .band-moss .btn-line:active {
     background-color: var(--color-canvas);
     border-color: var(--color-canvas);
     color: var(--color-moss);
   }
-  .band-moss .btn-canvas:active {
-    background-color: var(--color-night);
-    color: var(--color-canvas);
-  }
   @media (hover: hover) {
-    .btn-ink:hover {
-      background-color: var(--color-moss);
+    .btn-ink:hover,
+    .btn-canvas:hover {
+      background-color: var(--color-moss-bright);
+      color: var(--color-canvas);
     }
     .btn-moss:hover {
       background-color: var(--color-moss-deep);
@@ -351,18 +387,14 @@
       border-color: var(--color-ink);
       color: var(--color-canvas);
     }
-    .btn-canvas:hover {
-      background-color: var(--color-moss);
+    .band-moss .btn-canvas:hover {
+      background-color: var(--color-night);
       color: var(--color-canvas);
     }
     .band-moss .btn-line:hover {
       background-color: var(--color-canvas);
       border-color: var(--color-canvas);
       color: var(--color-moss);
-    }
-    .band-moss .btn-canvas:hover {
-      background-color: var(--color-night);
-      color: var(--color-canvas);
     }
   }
 
@@ -858,7 +890,10 @@ li:hover .row-num {
     transform: none;
     transition: none;
   }
-  .btn:hover svg {
+  .btn:hover svg,
+  .btn:hover,
+  .btn:focus-visible,
+  .btn:active {
     transform: none;
   }
   .bar {
