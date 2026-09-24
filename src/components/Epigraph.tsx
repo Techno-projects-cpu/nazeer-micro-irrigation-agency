@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { EPIGRAPH, PLATES } from "@/data/content";
 import { Plate } from "./Plate";
 import { Reveal } from "./Reveal";
@@ -33,17 +33,21 @@ export function Epigraph() {
             <figure className="px-0 py-4 text-center md:px-8">
               <blockquote className="epigraph text-ink">
                 {words.map((word, index) => (
-                  <span
-                    key={word + index}
-                    className="word-rise"
-                    style={{ "--wd": `${index * 45}ms` } as CSSProperties}
-                  >
-                    <span>
-                      {index === 0 ? "“" : ""}
-                      {word}
-                      {index === words.length - 1 ? "”" : ""}{" "}
+                  <Fragment key={word + index}>
+                    <span
+                      className="word-rise"
+                      style={{ "--wd": `${index * 45}ms` } as CSSProperties}
+                    >
+                      <span>
+                        {index === 0 ? "“" : ""}
+                        {word}
+                        {index === words.length - 1 ? "”" : ""}
+                      </span>
                     </span>
-                  </span>
+                    {/* The gap must live *between* the inline-block words: a
+                        trailing space inside each one collapses away. */}
+                    {index < words.length - 1 ? " " : null}
+                  </Fragment>
                 ))}
               </blockquote>
               <figcaption className="label mt-8">{EPIGRAPH.attribution}</figcaption>
