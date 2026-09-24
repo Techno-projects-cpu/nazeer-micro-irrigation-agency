@@ -48,7 +48,7 @@ export function Story() {
         {/* The measured figures, printed across the foot of the section. */}
         <ul className="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:mt-24 lg:grid-cols-4 lg:gap-x-10">
           {STATS.map((stat, index) => (
-            <Reveal as="li" key={stat.label} delay={index * 70} className="hairline-t pt-5">
+            <Reveal as="li" key={stat.label} delay={index * 70} className="pt-5">
               <p className="numeral text-ink">
                 <CountUp value={stat.value} suffix={stat.suffix} />
               </p>

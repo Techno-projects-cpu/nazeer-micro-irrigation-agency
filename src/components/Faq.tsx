@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 export function Faq() {
   return (
     <Reveal className="mt-20 md:mt-28">
-      <div className="hairline-t pt-5">
+      <div className="pt-5">
         <div className="flex items-baseline justify-between gap-6">
           <p className="label label-ink">Questions</p>
           <p className="label">Asked at the counter</p>
@@ -22,7 +22,7 @@ export function Faq() {
 
           <div className="md:col-span-7 md:col-start-6">
             {FAQS.map((faq) => (
-              <details key={faq.q} className="acc hairline-t first:border-t-0 first:pt-0">
+              <details key={faq.q} className="acc first:pt-0">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 [&::-webkit-details-marker]:hidden">
                   <h3 className="display-3 max-w-[32rem]">{faq.q}</h3>
                   <span aria-hidden="true" className="label mt-1 shrink-0">

@@ -2,7 +2,7 @@ import { TESTIMONIALS, WHY_US } from "@/data/content";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-/** 09 — the reasons, ruled left; the word from the fields, set right. */
+/** 09 — the reasons, set left; the word from the fields, set right. */
 export function Reasons() {
   return (
     <section id="why" className="section scroll-mt-4">
@@ -20,7 +20,7 @@ export function Reasons() {
               {WHY_US.map((reason, index) => (
                 <li
                   key={reason}
-                  className="hairline-t grid grid-cols-[2.5rem_1fr] items-baseline gap-x-5 py-5"
+                  className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-5 py-5"
                 >
                   <span className="label row-num">{String(index + 1).padStart(2, "0")}</span>
                   <span className="text-[0.9375rem] leading-relaxed text-ink">{reason}</span>
@@ -43,7 +43,7 @@ export function Reasons() {
                   as="li"
                   key={testimonial.name}
                   delay={index * 70}
-                  className="hairline-t py-7"
+                  className="py-7"
                 >
                   <blockquote className="font-display max-w-[32rem] text-[1.0625rem] leading-snug text-ink italic sm:text-[1.1875rem]">
                     {testimonial.quote}
@@ -55,7 +55,7 @@ export function Reasons() {
               ))}
             </ol>
 
-            <Reveal delay={220} className="hairline-t pt-6">
+            <Reveal delay={220} className="pt-6">
               <p className="fine max-w-[32rem]">
                 The three quotes above are sample placeholders written for the redesign, not
                 customer words. Real testimonials go here once collected, with permission.

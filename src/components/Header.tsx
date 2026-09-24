@@ -139,7 +139,7 @@ export function Header() {
           <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pt-2 pb-6">
             <ul>
               {NAV_LINKS.map((link) => (
-                <li key={link.href} className="hairline-b">
+                <li key={link.href}>
                   <a href={link.href} onClick={() => setOpen(false)} className="display-3 block py-5 transition-colors duration-200 hover:text-moss active:text-moss">
                     {link.label}
                   </a>

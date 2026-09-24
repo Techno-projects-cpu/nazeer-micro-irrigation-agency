@@ -4,7 +4,8 @@
    IRRIGATION ALMANAC — design tokens
    A printed annual report from a firm twenty years in the field: warm canvas,
    ink hairlines, one moss accent, field photography treated as plates.
-   Separation comes from hairlines, tone bands and type — nothing else.
+   Content is separated by space, tone bands and type; hairlines are kept only
+   for the fixed bars, section headings, fields and outlined buttons.
 --------------------------------------------------------------------------- */
 
 @theme {
@@ -468,12 +469,10 @@
     color: var(--color-ink-faint);
     text-align: left;
     padding: 0 0 0.75rem;
-    border-bottom: 1px solid var(--color-ink);
   }
   .ledger td,
   .ledger tbody th {
     padding: 1.1rem 0;
-    border-bottom: 1px solid var(--color-hairline);
     vertical-align: baseline;
     font-size: 0.9375rem;
   }
@@ -503,23 +502,18 @@
     letter-spacing: -0.02em;
     color: var(--color-ink);
   }
-  .ledger tbody tr:last-child > * {
-    border-bottom: 1px solid var(--color-ink);
-  }
   @media (max-width: 419px) {
     .ledger .col-unit {
       display: none;
     }
   }
 
-  /* --- Specimen block: rules like a table, no boxes ---------------------- */
+  /* --- Specimen block: a two-column grid, separated by space alone ------- */
   .specimen-grid {
     display: grid;
     grid-template-columns: 1fr;
-    border-top: 1px solid var(--color-hairline);
   }
   .specimen-grid > * {
-    border-bottom: 1px solid var(--color-hairline);
     padding-block: 1.75rem;
   }
   @media (min-width: 768px) {
@@ -530,7 +524,6 @@
       padding-block: 2.25rem;
     }
     .specimen-grid > *:nth-child(odd) {
-      border-right: 1px solid var(--color-hairline);
       padding-right: 2.5rem;
     }
     .specimen-grid > *:nth-child(even) {
@@ -801,10 +794,7 @@ li:hover .row-num {
   .hairline-t {
     border-top-width: 0.5px;
   }
-  .hairline-b,
-  .ledger thead th,
-  .ledger td,
-  .ledger tbody th {
+  .hairline-b {
     border-bottom-width: 0.5px;
   }
   .hairline-r {

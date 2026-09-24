@@ -2,7 +2,7 @@ import { QUALITY, SITE } from "@/data/content";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-/** 02 — a tonal panel: the house standards, set as a ruled specimen block. */
+/** 02 — a tonal panel: the house standards, set as a two-column specimen block. */
 export function Standards() {
   return (
     <section id="standards" className="band band-panel section scroll-mt-4">

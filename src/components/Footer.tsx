@@ -3,7 +3,7 @@ import { Wordmark } from "./Header";
 
 export function Footer() {
   return (
-    <footer className="hairline-t pb-24 md:pb-0">
+    <footer className="pb-24 md:pb-0">
       <div className="shell py-14 md:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.8fr_1fr] lg:gap-10">
           <div>
@@ -70,7 +70,7 @@ export function Footer() {
         </div>
 
         {/* Colophon */}
-        <div className="hairline-t mt-14 flex flex-col gap-4 pt-7 sm:flex-row sm:items-baseline sm:justify-between">
+        <div className="mt-14 flex flex-col gap-4 pt-7 sm:flex-row sm:items-baseline sm:justify-between">
           <p className="label">
             © {new Date().getFullYear()} {SITE.name} · Since {SITE.since}
           </p>

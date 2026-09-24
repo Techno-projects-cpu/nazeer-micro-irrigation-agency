@@ -3,7 +3,7 @@ import { Plate } from "./Plate";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-/** 03 — the one dark band. Plates, ruled and captioned, on night. */
+/** 03 — the one dark band. Plates, captioned, on night. */
 export function Field() {
   return (
     <section id="field" className="band band-night section scroll-mt-4">
@@ -53,7 +53,7 @@ export function Field() {
         </div>
 
         <Reveal delay={60} className="mt-14 md:mt-20">
-          <ul className="hairline-t grid gap-x-8 gap-y-6 pt-7 sm:grid-cols-3">
+          <ul className="grid gap-x-8 gap-y-6 pt-7 sm:grid-cols-3">
             <li>
               <p className="label text-ink">Designed for your field</p>
               <p className="mt-2.5 max-w-[20rem] text-[0.9375rem] leading-relaxed text-ink-soft">

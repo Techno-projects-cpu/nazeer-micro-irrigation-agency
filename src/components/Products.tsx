@@ -83,7 +83,6 @@ export function Products() {
                 return (
                   <li
                     key={product.title}
-                    className="hairline-t last:border-b last:border-hairline"
                     onPointerEnter={() => activate(product)}
                   >
                     <div className="grid gap-x-6 gap-y-4 py-7 md:grid-cols-[2.5rem_1.05fr_1fr] md:gap-x-8 md:py-8 lg:grid-cols-[2.5rem_1.05fr_1fr_3.25rem]">
@@ -174,7 +173,7 @@ export function Products() {
         </div>
 
         <Reveal delay={80} className="mt-20 md:mt-28">
-          <div className="hairline-t pt-5">
+          <div className="pt-5">
             <div className="grid gap-x-8 gap-y-8 md:grid-cols-12 md:pt-5">
               <div className="md:col-span-7">
                 <Plate

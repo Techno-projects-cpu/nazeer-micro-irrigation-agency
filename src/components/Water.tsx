@@ -34,7 +34,7 @@ export function Water() {
         <Reveal className="mt-14 md:mt-20">
           <figure>
             <WaterWipe />
-            <figcaption className="hairline-t mt-4 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 pt-4">
+            <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 pt-4">
               <span className="label">
                 Indicative illustration · Plate {PLATES.aerial.id} against plate {PLATES.hero.id}
               </span>
@@ -72,7 +72,7 @@ export function Water() {
           <p className="label mt-8">Indexed to flood irrigation = 100</p>
 
           {/* The single most important figure on the page. */}
-          <div className="hairline-t mt-14 flex flex-wrap items-end justify-between gap-x-12 gap-y-8 pt-8 md:mt-20">
+          <div className="mt-14 flex flex-wrap items-end justify-between gap-x-12 gap-y-8 pt-8 md:mt-20">
             <div>
               <p className="label label-moss">Water saved, same crop, same season</p>
               <p className="numeral mt-5 text-moss">60%</p>

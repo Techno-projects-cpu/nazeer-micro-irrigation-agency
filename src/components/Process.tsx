@@ -4,7 +4,7 @@ import { Plate } from "./Plate";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-/** 05 — a 4/8 split: the drawing on the left, the method ruled out on the right. */
+/** 05 — a 4/8 split: the drawing on the left, the method set out on the right. */
 export function Process() {
   return (
     <section id="design" className="section scroll-mt-4">
@@ -24,7 +24,7 @@ export function Process() {
               sizes="(max-width: 767px) 100vw, 30vw"
               zoom
             />
-            <div className="hairline-t mt-8 pt-6">
+            <div className="mt-8 pt-6">
               <p className="body-copy max-w-[24rem]">
                 One call and the design process starts at your gate. The visit is free, and so is
                 the drawing.
@@ -48,7 +48,7 @@ export function Process() {
                   as="li"
                   key={step.title}
                   delay={index * 60}
-                  className="hairline-t grid gap-x-8 gap-y-3 py-7 md:grid-cols-[5.5rem_1fr] md:py-9"
+                  className="grid gap-x-8 gap-y-3 py-7 md:grid-cols-[5.5rem_1fr] md:py-9"
                 >
                   <span className="label row-num pt-1.5">Step {String(index + 1).padStart(2, "0")}</span>
                   <div>

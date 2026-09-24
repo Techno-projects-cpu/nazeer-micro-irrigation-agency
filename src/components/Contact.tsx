@@ -72,7 +72,7 @@ export function Contact() {
           <Reveal className="md:col-span-5">
             <dl>
               {DETAILS.map((detail) => (
-                <div key={detail.label} className="hairline-t py-5">
+                <div key={detail.label} className="py-5">
                   <dt className="label">{detail.label}</dt>
                   <dd className="mt-2 text-[0.9375rem] leading-relaxed text-ink">
                     {detail.href ? (
