@@ -121,8 +121,9 @@
   }
 
   /* --- Type scale ---------------------------------------------------------
-     `.statement` is the largest voice on the page and is used exactly twice:
-     the cover headline and the epigraph. Everything else stays measured.
+     Statement type — the display serif at full scale — is used exactly twice:
+     the cover headline (`.statement`, below) and the epigraph (`.epigraph`,
+     one size down). Everything else stays measured.
   ------------------------------------------------------------------------- */
   .statement {
     font-family: var(--font-display);

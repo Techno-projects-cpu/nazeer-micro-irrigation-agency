@@ -38,7 +38,7 @@ export function Field() {
                 plate={PLATES.polyhouse}
                 aspect="aspect-[4/3]"
                 sizes="(max-width: 767px) 100vw, 40vw"
-              zoom
+                zoom
               />
             </Reveal>
             <Reveal delay={140}>
@@ -46,7 +46,7 @@ export function Field() {
                 plate={PLATES.drip}
                 aspect="aspect-[4/3]"
                 sizes="(max-width: 767px) 100vw, 40vw"
-              zoom
+                zoom
               />
             </Reveal>
           </div>
