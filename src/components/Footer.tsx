@@ -1,4 +1,5 @@
 import { NAV_LINKS, PRODUCTS, SITE, STUDIO_CREDIT } from "@/data/content";
+import { LANGUAGE_LINKS } from "@/data/locales";
 import { Wordmark } from "./Header";
 
 export function Footer() {
@@ -68,6 +69,26 @@ export function Footer() {
             </ul>
           </div>
         </div>
+
+        {/* The regional sub-sites, each named in its own script. */}
+        <nav aria-label="Languages" className="mt-14">
+          <p className="label label-ink">Read in your language</p>
+          <ul className="mt-3 flex flex-wrap gap-x-6">
+            {LANGUAGE_LINKS.filter((link) => link.code !== "en").map((link) => (
+              <li key={link.code}>
+                <a
+                  href={link.href}
+                  hrefLang={link.code}
+                  lang={link.code}
+                  dir={link.dir}
+                  className="tap text-[1rem] text-ink-soft"
+                >
+                  <span className="link-quiet">{link.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Colophon */}
         <div className="mt-14 flex flex-col gap-4 pt-7 sm:flex-row sm:items-baseline sm:justify-between">

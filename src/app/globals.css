@@ -319,6 +319,11 @@
     transform: translate(-2px, -2px);
     box-shadow: 3px 3px 0 0 var(--btn-pop);
   }
+  /* Touch: a tap gets the full lift, held briefly by <PressFeedback />. */
+  .btn[data-pressed="true"] {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--btn-pop);
+  }
 
   /* Ink → bright moss, lifting off an ink block. */
   .btn-ink {
@@ -352,23 +357,29 @@
   }
 
   .btn-ink:active,
-  .btn-canvas:active {
+  .btn-ink[data-pressed="true"],
+  .btn-canvas:active,
+  .btn-canvas[data-pressed="true"] {
     background-color: var(--color-moss-bright);
     color: var(--color-canvas);
   }
-  .btn-moss:active {
+  .btn-moss:active,
+  .btn-moss[data-pressed="true"] {
     background-color: var(--color-moss-deep);
   }
-  .btn-line:active {
+  .btn-line:active,
+  .btn-line[data-pressed="true"] {
     background-color: var(--color-ink);
     border-color: var(--color-ink);
     color: var(--color-canvas);
   }
-  .band-moss .btn-canvas:active {
+  .band-moss .btn-canvas:active,
+  .band-moss .btn-canvas[data-pressed="true"] {
     background-color: var(--color-night);
     color: var(--color-canvas);
   }
-  .band-moss .btn-line:active {
+  .band-moss .btn-line:active,
+  .band-moss .btn-line[data-pressed="true"] {
     background-color: var(--color-canvas);
     border-color: var(--color-canvas);
     color: var(--color-moss);
@@ -893,7 +904,8 @@ li:hover .row-num {
   .btn:hover svg,
   .btn:hover,
   .btn:focus-visible,
-  .btn:active {
+  .btn:active,
+  .btn[data-pressed="true"] {
     transform: none;
   }
   .bar {
@@ -910,5 +922,89 @@ li:hover .row-num {
   }
   .link-quiet {
     transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Regional sub-sites (/telugu, /hindi, /urdu, /tamil, /kannada).
+   Each script gets its own Noto faces; Inter / Fraunces stay first in the
+   stack so Latin digits, "ISI" and "PMKSY" match the English site. The Noto
+   faces are only imported by the regional layout, so the English page never
+   downloads them. Tracking and uppercase are never applied here: letter-
+   spacing breaks Indic conjuncts and Urdu's joined letters.
+--------------------------------------------------------------------------- */
+@layer components {
+  :lang(te) {
+    --font-script: "Inter Variable", "Noto Sans Telugu Variable", "Noto Sans Telugu", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Telugu Variable", "Noto Serif Telugu",
+      serif;
+  }
+  :lang(hi) {
+    --font-script: "Inter Variable", "Noto Sans Devanagari Variable", "Noto Sans Devanagari",
+      sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Devanagari Variable",
+      "Noto Serif Devanagari", serif;
+  }
+  :lang(ta) {
+    --font-script: "Inter Variable", "Noto Sans Tamil Variable", "Noto Sans Tamil", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Tamil Variable", "Noto Serif Tamil",
+      serif;
+  }
+  :lang(kn) {
+    --font-script: "Inter Variable", "Noto Sans Kannada Variable", "Noto Sans Kannada", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Kannada Variable", "Noto Serif Kannada",
+      serif;
+  }
+  /* Urdu is set in Nastaliq, its traditional hand — which needs far more
+     line height than any other script on the site. */
+  :lang(ur) {
+    --font-script: "Inter Variable", "Noto Nastaliq Urdu Variable", "Noto Nastaliq Urdu", serif;
+    --font-script-display: "Fraunces Variable", "Noto Nastaliq Urdu Variable", "Noto Nastaliq Urdu",
+      serif;
+    --script-leading: 2.25;
+    --script-display-leading: 2;
+  }
+
+  .local {
+    font-family: var(--font-script, var(--font-sans));
+    line-height: var(--script-leading, 1.75);
+  }
+  .local .btn {
+    letter-spacing: 0;
+  }
+  .local-display {
+    font-family: var(--font-script-display, var(--font-display));
+    font-weight: 600;
+    line-height: var(--script-display-leading, 1.3);
+    letter-spacing: 0;
+  }
+  .local-kicker {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: var(--script-leading, 1.6);
+    color: var(--color-moss);
+  }
+
+  /* --- Language buttons ("click me to translate", in each language) ----- */
+  .lang-btn {
+    flex-direction: column;
+    gap: 0.3rem;
+    min-height: 5.75rem;
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+    letter-spacing: 0;
+    /* System fonts: short labels shouldn't pull in a whole web font. */
+    font-family: var(--font-sans);
+  }
+  .lang-btn-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .lang-btn-cta {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.45;
+    opacity: 0.8;
   }
 }

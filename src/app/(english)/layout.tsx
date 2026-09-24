@@ -4,8 +4,10 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/fraunces/soft.css";
 import "@fontsource-variable/fraunces/soft-italic.css";
 import "@fontsource-variable/jetbrains-mono";
-import "./globals.css";
+import "../globals.css";
 import { SITE } from "@/data/content";
+import { LANGUAGE_ALTERNATES } from "@/data/locales";
+import { RevealFallback } from "@/components/RevealFallback";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
     "Andhra Pradesh",
     "Nazeer Micro Irrigation Agency",
   ],
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: LANGUAGE_ALTERNATES },
   openGraph: {
     type: "website",
     url: SITE.url,
@@ -75,19 +77,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        {/* Without JavaScript the reveal never fires, so the resting state is
-            retired here rather than leaving anything invisible. */}
-        <noscript>
-          <style
-            dangerouslySetInnerHTML={{
-              __html:
-                "[data-reveal]{opacity:1 !important;transform:none !important}" +
-                "[data-reveal] .word-rise>span{transform:none !important}" +
-                "[data-reveal] .plate-zoom img{transform:none !important}" +
-                ".rule-draw::before,.rule-draw-once::before{transform:none !important;animation:none !important}",
-            }}
-          />
-        </noscript>
+        <RevealFallback />
         <a
           href="#main"
           data-native="true"
