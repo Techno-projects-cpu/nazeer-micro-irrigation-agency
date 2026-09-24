@@ -74,13 +74,15 @@ export function Products() {
             </Reveal>
 
             <ul className="mt-8">
-              {visible.map((product) => {
+              {visible.map((product, index) => {
                 const plate = PLATES[product.plate];
+                // Touch rows repeat a photograph only when it changes, so two
+                // rows sharing a plate don't print the same picture twice.
+                const showPlate = index === 0 || visible[index - 1].plate !== product.plate;
                 const number = String(PRODUCTS.indexOf(product) + 1).padStart(2, "0");
                 return (
                   <li
                     key={product.title}
-                    className="hairline-t last:hairline-b"
                     onPointerEnter={() => activate(product)}
                   >
                     <div className="grid gap-x-6 gap-y-4 py-7 md:grid-cols-[2.5rem_1.05fr_1fr] md:gap-x-8 md:py-8 lg:grid-cols-[2.5rem_1.05fr_1fr_3.25rem]">
@@ -128,16 +130,18 @@ export function Products() {
                       </span>
                     </div>
 
-                    {/* Touch: every row carries its own plate. */}
-                    <div className="pb-7 lg:hidden">
-                      <Plate
-                        plate={plate}
-                        aspect="aspect-[16/9]"
-                        sizes="(max-width: 1023px) 100vw, 0vw"
-                        caption={false}
-                        decorative
-                      />
-                    </div>
+                    {/* Touch: each row carries its plate (unless the row above just showed it). */}
+                    {showPlate ? (
+                      <div className="pb-7 lg:hidden">
+                        <Plate
+                          plate={plate}
+                          aspect="aspect-[16/9]"
+                          sizes="(max-width: 1023px) 100vw, 0vw"
+                          caption={false}
+                          decorative
+                        />
+                      </div>
+                    ) : null}
                   </li>
                 );
               })}
@@ -169,7 +173,7 @@ export function Products() {
         </div>
 
         <Reveal delay={80} className="mt-20 md:mt-28">
-          <div className="hairline-t pt-5">
+          <div className="pt-5">
             <div className="grid gap-x-8 gap-y-8 md:grid-cols-12 md:pt-5">
               <div className="md:col-span-7">
                 <Plate

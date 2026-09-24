@@ -3,7 +3,7 @@ import { Plate } from "./Plate";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
-/** 08 — a wide plate against a narrow ruled list. */
+/** 08 — a wide plate against a narrow numbered list. */
 export function Automobile() {
   return (
     <section id="automobile" className="section scroll-mt-4">
@@ -32,7 +32,7 @@ export function Automobile() {
                   as="li"
                   key={point.title}
                   delay={index * 50}
-                  className="hairline-t py-5 first:pt-0"
+                  className="py-5"
                 >
                   <div className="flex items-baseline gap-4">
                     <span className="label row-num">{String(index + 1).padStart(2, "0")}</span>
@@ -46,7 +46,7 @@ export function Automobile() {
                 </Reveal>
               ))}
             </ol>
-            <Reveal delay={220} className="hairline-t pt-6">
+            <Reveal delay={220} className="pt-6">
               <a
                 href={SITE.phoneHref}
                 className="tap text-[0.9375rem] font-medium text-ink"

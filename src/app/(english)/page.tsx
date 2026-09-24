@@ -1,7 +1,9 @@
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { PressFeedback } from "@/components/PressFeedback";
 import { IndexRail } from "@/components/IndexRail";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { Languages } from "@/components/Languages";
 import { Story } from "@/components/Story";
 import { Standards } from "@/components/Standards";
 import { Field } from "@/components/Field";
@@ -21,11 +23,14 @@ export default function Home() {
   return (
     <>
       <SmoothScroll />
+      <PressFeedback />
       <IndexRail />
       <Header />
       <main id="main" tabIndex={-1}>
         {/* Cover — plate 01 */}
         <Hero />
+        {/* The regional sub-sites, straight under the cover */}
+        <Languages />
         {/* 01 */}
         <Story />
         {/* 02 — tonal panel */}

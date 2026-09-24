@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { NAV_LINKS, SITE } from "@/data/content";
+import { LANGUAGE_LINKS } from "@/data/locales";
 import { lockScroll } from "@/lib/scroll";
 import { Icon } from "./icons";
 
@@ -134,14 +135,30 @@ export function Header() {
       {open ? (
         <div
           id="mobile-menu"
-          className="hairline-t fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] bg-canvas pb-[calc(6rem+env(safe-area-inset-bottom))] md:top-[calc(4.5rem+env(safe-area-inset-top))] lg:hidden"
+          className="hairline-t fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] bg-canvas pb-[calc(3.5rem+1px+env(safe-area-inset-bottom))] md:top-[calc(4.5rem+env(safe-area-inset-top))] md:pb-0 lg:hidden"
         >
           <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pt-2 pb-6">
             <ul>
               {NAV_LINKS.map((link) => (
-                <li key={link.href} className="hairline-b">
-                  <a href={link.href} onClick={() => setOpen(false)} className="display-3 block py-5">
+                <li key={link.href}>
+                  <a href={link.href} onClick={() => setOpen(false)} className="display-3 block py-5 transition-colors duration-200 hover:text-moss active:text-moss">
                     {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <ul aria-label="Languages" className="mt-6 flex flex-wrap gap-x-5">
+              {LANGUAGE_LINKS.filter((link) => link.code !== "en").map((link) => (
+                <li key={link.code}>
+                  <a
+                    href={link.href}
+                    hrefLang={link.code}
+                    lang={link.code}
+                    dir={link.dir}
+                    className="tap text-[1.0625rem] text-ink-soft transition-colors duration-200 hover:text-moss active:text-moss"
+                  >
+                    {link.name}
                   </a>
                 </li>
               ))}

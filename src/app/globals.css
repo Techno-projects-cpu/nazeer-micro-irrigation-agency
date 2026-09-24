@@ -4,7 +4,8 @@
    IRRIGATION ALMANAC — design tokens
    A printed annual report from a firm twenty years in the field: warm canvas,
    ink hairlines, one moss accent, field photography treated as plates.
-   Separation comes from hairlines, tone bands and type — nothing else.
+   Content is separated by space, tone bands and type; hairlines are kept only
+   for the fixed bars, section headings, fields and outlined buttons.
 --------------------------------------------------------------------------- */
 
 @theme {
@@ -33,6 +34,8 @@
   /* The single accent */
   --color-moss: #1e5b3a;
   --color-moss-deep: #143f28;
+  /* Button hover/press — brighter, still 5:1 against canvas text. */
+  --color-moss-bright: #25784b;
 
   /* Shared easing — slow settle, no bounce */
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
@@ -121,8 +124,9 @@
   }
 
   /* --- Type scale ---------------------------------------------------------
-     `.statement` is the largest voice on the page and is used exactly twice:
-     the cover headline and the epigraph. Everything else stays measured.
+     Statement type — the display serif at full scale — is used exactly twice:
+     the cover headline (`.statement`, below) and the epigraph (`.epigraph`,
+     one size down). Everything else stays measured.
   ------------------------------------------------------------------------- */
   .statement {
     font-family: var(--font-display);
@@ -275,8 +279,14 @@
     background-size: 100% 1px;
   }
 
-  /* --- Buttons — square, 48px tall, no shadow ---------------------------- */
+  /* --- Buttons — square, 48px tall ---------------------------------------
+     At rest they sit flat on the page. On hover (pointer), keyboard focus or
+     a press (touch — phones have no hover), the colour flips and the button
+     lifts off the page onto a hard, contrasting offset block: a printed
+     shadow, never a blur. Each variant names its block colour in --btn-pop.
+  ------------------------------------------------------------------------- */
   .btn {
+    --btn-pop: var(--color-ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -288,38 +298,115 @@
     font-weight: 500;
     letter-spacing: -0.005em;
     transition:
-      background-color 240ms ease,
-      border-color 240ms ease,
-      color 240ms ease;
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      transform 260ms var(--ease-editorial),
+      box-shadow 260ms var(--ease-editorial);
   }
+  @media (hover: hover) {
+    .btn:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 6px 6px 0 0 var(--btn-pop);
+    }
+  }
+  .btn:focus-visible {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--btn-pop);
+  }
+  /* The press: pointer users feel it sink back; touch users see it pop. */
+  .btn:active {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 0 var(--btn-pop);
+  }
+  /* Touch: a tap gets the full lift, held briefly by <PressFeedback />. */
+  .btn[data-pressed="true"] {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 0 var(--btn-pop);
+  }
+
+  /* Ink → bright moss, lifting off an ink block. */
   .btn-ink {
     background-color: var(--color-ink);
     color: var(--color-canvas);
   }
-  .btn-ink:hover {
-    background-color: var(--color-moss-deep);
-  }
+  /* Moss → deep moss, lifting off an ink block. */
   .btn-moss {
     background-color: var(--color-moss);
     color: var(--color-canvas);
   }
-  .btn-moss:hover {
-    background-color: var(--color-moss-deep);
-  }
+  /* Outline → solid ink, lifting off a bright-moss block. */
   .btn-line {
+    --btn-pop: var(--color-moss-bright);
     border-color: var(--color-hairline-ink);
     color: var(--color-ink);
   }
-  .btn-line:hover {
-    border-color: var(--color-ink);
-  }
+  /* Canvas (over the cover photograph) → bright moss, off a canvas block. */
   .btn-canvas {
+    --btn-pop: var(--color-canvas);
     background-color: var(--color-canvas);
     color: var(--color-ink);
   }
-  .btn-canvas:hover {
-    background-color: var(--color-ink);
+  /* Inside the moss band --color-ink is re-declared as canvas, so these
+     variants get explicit colours there (otherwise: canvas on canvas). */
+  .band-moss .btn-canvas {
+    --btn-pop: var(--color-night);
+  }
+  .band-moss .btn-line {
+    --btn-pop: var(--color-night);
+  }
+
+  .btn-ink:active,
+  .btn-ink[data-pressed="true"],
+  .btn-canvas:active,
+  .btn-canvas[data-pressed="true"] {
+    background-color: var(--color-moss-bright);
     color: var(--color-canvas);
+  }
+  .btn-moss:active,
+  .btn-moss[data-pressed="true"] {
+    background-color: var(--color-moss-deep);
+  }
+  .btn-line:active,
+  .btn-line[data-pressed="true"] {
+    background-color: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-canvas);
+  }
+  .band-moss .btn-canvas:active,
+  .band-moss .btn-canvas[data-pressed="true"] {
+    background-color: var(--color-night);
+    color: var(--color-canvas);
+  }
+  .band-moss .btn-line:active,
+  .band-moss .btn-line[data-pressed="true"] {
+    background-color: var(--color-canvas);
+    border-color: var(--color-canvas);
+    color: var(--color-moss);
+  }
+  @media (hover: hover) {
+    .btn-ink:hover,
+    .btn-canvas:hover {
+      background-color: var(--color-moss-bright);
+      color: var(--color-canvas);
+    }
+    .btn-moss:hover {
+      background-color: var(--color-moss-deep);
+    }
+    .btn-line:hover {
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-canvas);
+    }
+    .band-moss .btn-canvas:hover {
+      background-color: var(--color-night);
+      color: var(--color-canvas);
+    }
+    .band-moss .btn-line:hover {
+      background-color: var(--color-canvas);
+      border-color: var(--color-canvas);
+      color: var(--color-moss);
+    }
   }
 
   /* --- Form fields — hairline, 16px, flat -------------------------------- */
@@ -425,12 +512,10 @@
     color: var(--color-ink-faint);
     text-align: left;
     padding: 0 0 0.75rem;
-    border-bottom: 1px solid var(--color-ink);
   }
   .ledger td,
   .ledger tbody th {
     padding: 1.1rem 0;
-    border-bottom: 1px solid var(--color-hairline);
     vertical-align: baseline;
     font-size: 0.9375rem;
   }
@@ -460,23 +545,18 @@
     letter-spacing: -0.02em;
     color: var(--color-ink);
   }
-  .ledger tbody tr:last-child > * {
-    border-bottom: 1px solid var(--color-ink);
-  }
   @media (max-width: 419px) {
     .ledger .col-unit {
       display: none;
     }
   }
 
-  /* --- Specimen block: rules like a table, no boxes ---------------------- */
+  /* --- Specimen block: a two-column grid, separated by space alone ------- */
   .specimen-grid {
     display: grid;
     grid-template-columns: 1fr;
-    border-top: 1px solid var(--color-hairline);
   }
   .specimen-grid > * {
-    border-bottom: 1px solid var(--color-hairline);
     padding-block: 1.75rem;
   }
   @media (min-width: 768px) {
@@ -487,7 +567,6 @@
       padding-block: 2.25rem;
     }
     .specimen-grid > *:nth-child(odd) {
-      border-right: 1px solid var(--color-hairline);
       padding-right: 2.5rem;
     }
     .specimen-grid > *:nth-child(even) {
@@ -750,15 +829,34 @@ li:hover .row-num {
   color: var(--color-ink);
 }
 
-/* Keep the sticky bars' hairlines crisp on fractional zoom levels */
+/* Keep hairlines crisp on high-density screens. Only thin the side each
+   rule actually draws: a shorthand `border-width` here would give all four
+   sides a width, and because the preflight makes every border solid
+   currentColor, each hairline turned into a full dark box on phones. */
 @media (min-resolution: 2dppx) {
-  .hairline-t,
-  .hairline-b,
-  .ledger thead th,
-  .ledger td,
-  .ledger tbody th {
-    border-width: 0.5px;
+  .hairline-t {
+    border-top-width: 0.5px;
   }
+  .hairline-b {
+    border-bottom-width: 0.5px;
+  }
+  .hairline-r {
+    border-right-width: 0.5px;
+  }
+}
+
+/* Text links tint moss on hover, alongside the underline wipe. Links reversed
+   out of the cover photograph (text-canvas) keep their colour. */
+@media (hover: hover) {
+  :is(a, button):not(.text-canvas):hover .link-quiet:not([class*="text-canvas"]),
+  a.link-quiet:hover {
+    color: var(--color-moss);
+  }
+}
+.link-quiet {
+  transition:
+    background-size 380ms var(--ease-editorial),
+    color 240ms ease;
 }
 
 /* ---------------------------------------------------------------------------
@@ -803,7 +901,11 @@ li:hover .row-num {
     transform: none;
     transition: none;
   }
-  .btn:hover svg {
+  .btn:hover svg,
+  .btn:hover,
+  .btn:focus-visible,
+  .btn:active,
+  .btn[data-pressed="true"] {
     transform: none;
   }
   .bar {
@@ -820,5 +922,89 @@ li:hover .row-num {
   }
   .link-quiet {
     transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Regional sub-sites (/telugu, /hindi, /urdu, /tamil, /kannada).
+   Each script gets its own Noto faces; Inter / Fraunces stay first in the
+   stack so Latin digits, "ISI" and "PMKSY" match the English site. The Noto
+   faces are only imported by the regional layout, so the English page never
+   downloads them. Tracking and uppercase are never applied here: letter-
+   spacing breaks Indic conjuncts and Urdu's joined letters.
+--------------------------------------------------------------------------- */
+@layer components {
+  :lang(te) {
+    --font-script: "Inter Variable", "Noto Sans Telugu Variable", "Noto Sans Telugu", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Telugu Variable", "Noto Serif Telugu",
+      serif;
+  }
+  :lang(hi) {
+    --font-script: "Inter Variable", "Noto Sans Devanagari Variable", "Noto Sans Devanagari",
+      sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Devanagari Variable",
+      "Noto Serif Devanagari", serif;
+  }
+  :lang(ta) {
+    --font-script: "Inter Variable", "Noto Sans Tamil Variable", "Noto Sans Tamil", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Tamil Variable", "Noto Serif Tamil",
+      serif;
+  }
+  :lang(kn) {
+    --font-script: "Inter Variable", "Noto Sans Kannada Variable", "Noto Sans Kannada", sans-serif;
+    --font-script-display: "Fraunces Variable", "Noto Serif Kannada Variable", "Noto Serif Kannada",
+      serif;
+  }
+  /* Urdu is set in Nastaliq, its traditional hand — which needs far more
+     line height than any other script on the site. */
+  :lang(ur) {
+    --font-script: "Inter Variable", "Noto Nastaliq Urdu Variable", "Noto Nastaliq Urdu", serif;
+    --font-script-display: "Fraunces Variable", "Noto Nastaliq Urdu Variable", "Noto Nastaliq Urdu",
+      serif;
+    --script-leading: 2.25;
+    --script-display-leading: 2;
+  }
+
+  .local {
+    font-family: var(--font-script, var(--font-sans));
+    line-height: var(--script-leading, 1.75);
+  }
+  .local .btn {
+    letter-spacing: 0;
+  }
+  .local-display {
+    font-family: var(--font-script-display, var(--font-display));
+    font-weight: 600;
+    line-height: var(--script-display-leading, 1.3);
+    letter-spacing: 0;
+  }
+  .local-kicker {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: var(--script-leading, 1.6);
+    color: var(--color-moss);
+  }
+
+  /* --- Language buttons ("click me to translate", in each language) ----- */
+  .lang-btn {
+    flex-direction: column;
+    gap: 0.3rem;
+    min-height: 5.75rem;
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+    letter-spacing: 0;
+    /* System fonts: short labels shouldn't pull in a whole web font. */
+    font-family: var(--font-sans);
+  }
+  .lang-btn-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .lang-btn-cta {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.45;
+    opacity: 0.8;
   }
 }
