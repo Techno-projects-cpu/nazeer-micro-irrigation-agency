@@ -297,30 +297,72 @@
     background-color: var(--color-ink);
     color: var(--color-canvas);
   }
-  .btn-ink:hover {
-    background-color: var(--color-moss-deep);
-  }
   .btn-moss {
     background-color: var(--color-moss);
     color: var(--color-canvas);
-  }
-  .btn-moss:hover {
-    background-color: var(--color-moss-deep);
   }
   .btn-line {
     border-color: var(--color-hairline-ink);
     color: var(--color-ink);
   }
-  .btn-line:hover {
-    border-color: var(--color-ink);
-  }
   .btn-canvas {
     background-color: var(--color-canvas);
     color: var(--color-ink);
   }
-  .btn-canvas:hover {
+
+  /* Colour change: on hover for pointers, and on press for touch screens
+     (phones have no hover, so :active gives the same feedback on tap). */
+  .btn-ink:active {
+    background-color: var(--color-moss);
+  }
+  .btn-moss:active {
+    background-color: var(--color-moss-deep);
+  }
+  .btn-line:active {
     background-color: var(--color-ink);
+    border-color: var(--color-ink);
     color: var(--color-canvas);
+  }
+  .btn-canvas:active {
+    background-color: var(--color-moss);
+    color: var(--color-canvas);
+  }
+  /* Inside the moss band --color-ink is re-declared as canvas, so the generic
+     states above would print canvas-on-canvas; give them explicit colours. */
+  .band-moss .btn-line:active {
+    background-color: var(--color-canvas);
+    border-color: var(--color-canvas);
+    color: var(--color-moss);
+  }
+  .band-moss .btn-canvas:active {
+    background-color: var(--color-night);
+    color: var(--color-canvas);
+  }
+  @media (hover: hover) {
+    .btn-ink:hover {
+      background-color: var(--color-moss);
+    }
+    .btn-moss:hover {
+      background-color: var(--color-moss-deep);
+    }
+    .btn-line:hover {
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-canvas);
+    }
+    .btn-canvas:hover {
+      background-color: var(--color-moss);
+      color: var(--color-canvas);
+    }
+    .band-moss .btn-line:hover {
+      background-color: var(--color-canvas);
+      border-color: var(--color-canvas);
+      color: var(--color-moss);
+    }
+    .band-moss .btn-canvas:hover {
+      background-color: var(--color-night);
+      color: var(--color-canvas);
+    }
   }
 
   /* --- Form fields — hairline, 16px, flat -------------------------------- */
@@ -751,15 +793,37 @@ li:hover .row-num {
   color: var(--color-ink);
 }
 
-/* Keep the sticky bars' hairlines crisp on fractional zoom levels */
+/* Keep hairlines crisp on high-density screens. Only thin the side each
+   rule actually draws: a shorthand `border-width` here would give all four
+   sides a width, and because the preflight makes every border solid
+   currentColor, each hairline turned into a full dark box on phones. */
 @media (min-resolution: 2dppx) {
-  .hairline-t,
+  .hairline-t {
+    border-top-width: 0.5px;
+  }
   .hairline-b,
   .ledger thead th,
   .ledger td,
   .ledger tbody th {
-    border-width: 0.5px;
+    border-bottom-width: 0.5px;
   }
+  .hairline-r {
+    border-right-width: 0.5px;
+  }
+}
+
+/* Text links tint moss on hover, alongside the underline wipe. Links reversed
+   out of the cover photograph (text-canvas) keep their colour. */
+@media (hover: hover) {
+  :is(a, button):not(.text-canvas):hover .link-quiet:not([class*="text-canvas"]),
+  a.link-quiet:hover {
+    color: var(--color-moss);
+  }
+}
+.link-quiet {
+  transition:
+    background-size 380ms var(--ease-editorial),
+    color 240ms ease;
 }
 
 /* ---------------------------------------------------------------------------

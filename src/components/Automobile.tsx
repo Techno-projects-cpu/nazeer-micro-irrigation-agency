@@ -32,7 +32,7 @@ export function Automobile() {
                   as="li"
                   key={point.title}
                   delay={index * 50}
-                  className="hairline-t py-5 first:pt-0"
+                  className="hairline-t py-5"
                 >
                   <div className="flex items-baseline gap-4">
                     <span className="label row-num">{String(index + 1).padStart(2, "0")}</span>

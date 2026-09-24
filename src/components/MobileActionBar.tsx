@@ -13,7 +13,7 @@ export function MobileActionBar() {
     >
       <ul className="grid grid-cols-3">
         <li>
-          <a href={SITE.phoneHref} className="flex min-h-14 flex-col items-center justify-center gap-1.5">
+          <a href={SITE.phoneHref} className="flex min-h-14 flex-col items-center justify-center gap-1.5 transition-colors duration-200 hover:bg-panel active:bg-panel">
             <Icon name="phone" className="h-[1.125rem] w-[1.125rem] text-moss" strokeWidth={1.8} />
             <span className="label label-moss">Call</span>
           </a>
@@ -23,7 +23,7 @@ export function MobileActionBar() {
             href={SITE.whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="flex min-h-14 flex-col items-center justify-center gap-1.5"
+            className="flex min-h-14 flex-col items-center justify-center gap-1.5 transition-colors duration-200 hover:bg-panel active:bg-panel"
           >
             <Icon name="message" className="h-[1.125rem] w-[1.125rem] text-ink" strokeWidth={1.8} />
             <span className="label label-ink">WhatsApp</span>
@@ -34,7 +34,7 @@ export function MobileActionBar() {
             href={SITE.mapsUrl}
             target="_blank"
             rel="noreferrer"
-            className="flex min-h-14 flex-col items-center justify-center gap-1.5"
+            className="flex min-h-14 flex-col items-center justify-center gap-1.5 transition-colors duration-200 hover:bg-panel active:bg-panel"
           >
             <Icon name="navigate" className="h-[1.125rem] w-[1.125rem] text-ink" strokeWidth={1.6} />
             <span className="label label-ink">Directions</span>

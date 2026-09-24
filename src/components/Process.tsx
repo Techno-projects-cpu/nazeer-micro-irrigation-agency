@@ -48,7 +48,7 @@ export function Process() {
                   as="li"
                   key={step.title}
                   delay={index * 60}
-                  className="hairline-t grid gap-x-8 gap-y-3 py-7 first:pt-0 md:grid-cols-[5.5rem_1fr] md:py-9"
+                  className="hairline-t grid gap-x-8 gap-y-3 py-7 md:grid-cols-[5.5rem_1fr] md:py-9"
                 >
                   <span className="label row-num pt-1.5">Step {String(index + 1).padStart(2, "0")}</span>
                   <div>

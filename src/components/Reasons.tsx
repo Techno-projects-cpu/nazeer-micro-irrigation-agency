@@ -20,9 +20,9 @@ export function Reasons() {
               {WHY_US.map((reason, index) => (
                 <li
                   key={reason}
-                  className="hairline-t grid grid-cols-[2.5rem_1fr] gap-x-5 py-5 first:pt-0"
+                  className="hairline-t grid grid-cols-[2.5rem_1fr] items-baseline gap-x-5 py-5"
                 >
-                  <span className="label row-num pt-0.5">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="label row-num">{String(index + 1).padStart(2, "0")}</span>
                   <span className="text-[0.9375rem] leading-relaxed text-ink">{reason}</span>
                 </li>
               ))}

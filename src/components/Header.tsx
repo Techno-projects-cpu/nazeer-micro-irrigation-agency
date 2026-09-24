@@ -134,13 +134,13 @@ export function Header() {
       {open ? (
         <div
           id="mobile-menu"
-          className="hairline-t fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] bg-canvas pb-[calc(6rem+env(safe-area-inset-bottom))] md:top-[calc(4.5rem+env(safe-area-inset-top))] lg:hidden"
+          className="hairline-t fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] bg-canvas pb-[calc(3.5rem+1px+env(safe-area-inset-bottom))] md:top-[calc(4.5rem+env(safe-area-inset-top))] md:pb-0 lg:hidden"
         >
           <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pt-2 pb-6">
             <ul>
               {NAV_LINKS.map((link) => (
                 <li key={link.href} className="hairline-b">
-                  <a href={link.href} onClick={() => setOpen(false)} className="display-3 block py-5">
+                  <a href={link.href} onClick={() => setOpen(false)} className="display-3 block py-5 transition-colors duration-200 hover:text-moss active:text-moss">
                     {link.label}
                   </a>
                 </li>
